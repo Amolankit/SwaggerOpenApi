@@ -22,14 +22,41 @@ namespace ApiSample.Controllers
         /// </summary>
         /// <param name="id">Primary Id of the employee</param>
         /// <returns>Employee object</returns>
-        /// <returncode>404:- When the Id is not found</returncode>
-        /// <returncode>200:- When the Id not found</returncode>
+        /// <remarks>
+        /// Sample response:
+        ///
+        ///    
+        ///     {
+        ///        "id": 1,
+        ///        "firstName": "Alpha",
+        ///        "lastName": Beta,
+        ///        "emailId": "alpha.beta@delta.com"
+        ///     }
+        ///
+        /// </remarks>
+        /// <response code="200">Returns the valid item</response>
+        /// <response code="400">If the item is null</response>
+        /// <response code="500">When Server Error happens</response>
         // GET: api/Employee/5
         [HttpGet("{id}", Name = "Get")]
         [ProducesResponseType(404)]
-        public Employee Get(int id)
+        [ProducesResponseType(200)]
+        public IActionResult Get(int id)
         {
-            return GetEmployees().Find(e => e.Id == id);
+            try
+            {
+
+                if (id <= 0)
+                    return BadRequest();
+                var employee = GetEmployees().Find(e => e.Id == id);
+                if (employee == null)
+                    return NotFound();
+                return Ok(employee);
+            }
+            catch
+            {
+                return StatusCode(500) ;
+            }
         }
 
         // POST: api/Employee
