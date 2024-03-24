@@ -9,14 +9,14 @@ namespace ApiSample.Controllers.v1;
 public class EmployeeController : ControllerBase
 {
     /// <summary>
-    /// Gets the list of employee
+    /// Gets the full list of employee
     /// </summary>
     /// <returns></returns>
-    // GET: api/Employee
+    /// <response code="200">Returns the list of all employee</response>
     [HttpGet]
-    public IEnumerable<Employee> Get()
+    public IActionResult Get()
     {
-        return GetEmployees();
+        return Ok( GetEmployees());
     }
 
     /// <summary>
@@ -39,7 +39,6 @@ public class EmployeeController : ControllerBase
     /// <response code="200">Returns the valid item</response>
     /// <response code="400">If the item is null</response>
     /// <response code="500">When Server Error happens</response>
-    // GET: api/Employee/5
     [HttpGet("{id}", Name = "Get")]
     [ProducesResponseType(404)]
     [ProducesResponseType(200)]
@@ -61,13 +60,57 @@ public class EmployeeController : ControllerBase
         }
     }
 
-    // POST: api/Employee
+    /// <summary>
+    /// Adds the new Employee to the collection
+    /// </summary>
+    /// <param name="employee">Employee object collection</param>
+    /// <returns>The employee sent to be added</returns>
+    /// <remarks>
+    ///
+    /// Sample request:
+    ///
+    ///    
+    ///     {
+    ///        "id": 1,
+    ///        "firstName": "Alpha",
+    ///        "lastName": Beta,
+    ///        "emailId": "alpha.beta@delta.com"
+    ///     }
+    ///
+    /// 
+    /// Sample response:
+    ///
+    ///    
+    ///     {
+    ///        "id": 1,
+    ///        "firstName": "Alpha",
+    ///        "lastName": Beta,
+    ///        "emailId": "alpha.beta@delta.com"
+    ///     }
+    ///
+    /// </remarks>
+    /// <response code="201">Objected Created</response>
+    /// <response code="400">Bad Request</response>
+    /// <response code="500">Internal server error</response>
     [HttpPost]
     [Produces("application/json")]
-    public Employee Post([FromBody] Employee employee)
+    [ProducesResponseType(404)]
+    [ProducesResponseType(201)]
+    public IActionResult Post([FromBody] Employee employee)
     {
-        // Logic to create new Employee
-        return new Employee();
+        try
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest("Invalid Email");
+            }
+            // Logic to create new Employee
+            return StatusCode(201);
+        }
+        catch
+        {
+            return StatusCode(500);
+        }
     }
 
     // PUT: api/Employee/5
