@@ -11,8 +11,17 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.15" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="7.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Controllers\v2\" />
+    <None Remove="Swagger\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\v2\" />
+    <Folder Include="Swagger\" />
+  </ItemGroup>
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>

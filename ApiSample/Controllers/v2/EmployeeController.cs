@@ -1,10 +1,10 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApiSample.Controllers.v1;
+namespace ApiSample.Controllers.v2;
 
 [ApiController]
-[ApiVersion("1.0")]
+[ApiVersion("2.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
 public class EmployeeController : ControllerBase
 {
